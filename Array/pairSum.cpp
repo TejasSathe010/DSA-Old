@@ -1,36 +1,31 @@
 #include <iostream>
-#include <unordered_map>
+#include <vector>
+#include <unordered_set>
 using namespace std;
 
-// Returns number of pairs in arr[0..n-1]
-// with sum equal to 'sum'
-void printPairs(int arr[], int n, int sum)
-{
-	// Store counts of all elements in map m
-	unordered_map<int, int> m;
+pair<int, int> pair_sum(vector<int> arr, int sum){
+	pair<int, int> result;
+	unordered_set<int> resultSet;
 
-	// Traverse through all elements
-	for (int i = 0; i < n; i++) {
-
-		// Search if a pair can be formed with
-		// arr[i].
-		int rem = sum - arr[i];
-		if (m.find(rem) != m.end()) {
-			int count = m[rem];
-			for (int j = 0; j < count; j++)
-				cout << "(" << rem << ", "
-					<< arr[i] << ")" << endl;
+	for(int i=0; i<arr.size(); i++){
+		int complement = sum - arr[i];
+		if (resultSet.find(complement) != resultSet.end()){
+			result.first = arr[i];
+			result.second = complement;
+			return result;
 		}
-		m[arr[i]]++;
+		resultSet.insert(arr[i]);
 	}
+	return {};
 }
 
-// Driver function to test the above function
-int main()
-{
-	int arr[] = { 1, 5, 7, -1, 5 };
-	int n = sizeof(arr) / sizeof(arr[0]);
-	int sum = 6;
-	printPairs(arr, n, sum);
-	return 0;
+
+int main(){
+	vector<int> arr {10,5,2,3,-6,9,11};
+    int S = 4;
+
+    pair<int,int> p = pair_sum(arr,S);
+
+    cout<<p.first<<","<<p.second<<endl;
+    return 0;
 }
